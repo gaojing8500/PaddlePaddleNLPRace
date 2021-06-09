@@ -1,7 +1,7 @@
 '''
 Author: your name
 Date: 2021-06-07 10:52:07
-LastEditTime: 2021-06-08 10:22:22
+LastEditTime: 2021-06-09 11:29:56
 LastEditors: Please set LastEditors
 Description: 合并三个数据集的的tran.tsv 和test.tsv
 FilePath: /DeepLearningFramework/paddlepaddle-gpu-2.1.0/qian_yan_text_match/preprocess_datasets.py
@@ -104,6 +104,35 @@ class PreProcessDataSets():
             for line in merge_bq_lc_paws_datasets_shuffle:
                 f.write(line)
 
+    def readfiles(self,file_path):
+        data_list = []
+        with open(file_path,'r',encoding="utf-8") as f:
+            for line in f:
+                if(len(line.strip().split('\t')) != 1):
+                    data_list.append(line)
+        return data_list
+
+    def writefiles(self,files_out_path,data_list):
+        with open(files_out_path,'w',encoding="utf-8") as f:
+            for line in data_list:
+                f.write(line)
+
+    def paws_x_zh_preprocess(self):
+        train_paw_dataset_train = self.config.directory_structure["paws-x-zh_train"]
+        train_paw_dataset_dev = self.config.directory_structure["paws-x-zh_dev"]
+        train_paw_dataset_test = self.config.directory_structure["paws-x-zh_test"]
+        root_path = "/home/gaojing/PTM/datasets/qian_yan_text_match_datasets/paws-x-zh/preprocess_data/"
+        train = self.readfiles(train_paw_dataset_train)
+        dev = self.readfiles(train_paw_dataset_dev)
+        test = self.readfiles(train_paw_dataset_test)
+        self.writefiles(root_path + "train.tsv",train)
+        self.writefiles(root_path + "dev.tsv",dev)
+        self.writefiles(root_path + "test.tsv",test)
+
+
+        
+
+
     def test_readfiles(self):
         test_data_path = self.config.directory_structure["merge_train_datasets"]
         with open(test_data_path,"r",encoding ="utf-8") as f:
@@ -128,7 +157,8 @@ class PreProcessDataSets():
 if __name__ =="__main__":
     preProcessDataSets = PreProcessDataSets()
     # preProcessDataSets.test_readfiles()
-    preProcessDataSets.readfiles_refacting_dev()
-    preProcessDataSets.readfiles_refacting_test()
+    # preProcessDataSets.readfiles_refacting_dev()
+    # preProcessDataSets.readfiles_refacting_test()
+    preProcessDataSets.paws_x_zh_preprocess()
 
 
