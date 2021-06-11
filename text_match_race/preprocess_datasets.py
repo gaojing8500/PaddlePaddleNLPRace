@@ -1,7 +1,7 @@
 '''
 Author: your name
 Date: 2021-06-07 10:52:07
-LastEditTime: 2021-06-09 11:29:56
+LastEditTime: 2021-06-10 17:32:54
 LastEditors: Please set LastEditors
 Description: 合并三个数据集的的tran.tsv 和test.tsv
 FilePath: /DeepLearningFramework/paddlepaddle-gpu-2.1.0/qian_yan_text_match/preprocess_datasets.py
@@ -35,6 +35,43 @@ class PreProcessDataSets():
         merge_bq_lc_paws_datasets_shuffle = shuffle(merge_bq_lc_paws_datasets)
         merge_bq_lc_paws_datasets_shuffle.to_csv(self.config.merge_train_datasets + "merge_bq_lc_paws_datasets_train_shuffle.tsv",sep="\t")
 
+    def analyze_data(self):
+        merge_bq_lc_paws_datasets =[]
+        bq_train = []
+        bq_q_text=[]
+        lcm_train = []
+        lcm_q_text=[]
+        paws_x_train = []
+        paws_x_q_text=[]
+        train_bq_dataset = self.config.directory_structure["bq_corpus_train"]
+        train_lc_dataset = self.config.directory_structure["lcqmc_train"]
+        train_paw_dataset = self.config.directory_structure["paws-x-zh_train"]
+        with open(train_bq_dataset,'r',encoding="utf-8") as f:
+            for line in f:
+                if(len(line.strip().split('\t')) != 1):
+                    merge_bq_lc_paws_datasets.append(line)
+                    bq_train.append(line)
+                    q_text,title_text,label = line.strip().split('\t')
+                    if len(q_text)>len(title_text):
+                        
+        with open(train_lc_dataset,'r',encoding="utf-8") as f:
+            for line in f:
+                if(len(line.strip().split('\t')) != 1):
+                        merge_bq_lc_paws_datasets.append(line)
+                        lcm_train.append(line)
+        with open(train_paw_dataset,'r',encoding="utf-8") as f:
+            for line in f:
+                if(len(line.strip().split('\t')) != 1):
+                        merge_bq_lc_paws_datasets.append(line)
+                        paws_x_train.append(line)
+        print("bq数据总条数：{}".format(len(bq_train)))
+        print("lc数据总条数：{}".format(len(lcm_train)))
+        print("paws数据总条数：{}".format(len(paws_x_train)))
+        
+
+    
+    
+    
     def readfiles_refacting(self):
         merge_bq_lc_paws_datasets =[]
         train_bq_dataset = self.config.directory_structure["bq_corpus_train"]
@@ -130,8 +167,6 @@ class PreProcessDataSets():
         self.writefiles(root_path + "test.tsv",test)
 
 
-        
-
 
     def test_readfiles(self):
         test_data_path = self.config.directory_structure["merge_train_datasets"]
@@ -159,6 +194,6 @@ if __name__ =="__main__":
     # preProcessDataSets.test_readfiles()
     # preProcessDataSets.readfiles_refacting_dev()
     # preProcessDataSets.readfiles_refacting_test()
-    preProcessDataSets.paws_x_zh_preprocess()
+    preProcessDataSets.analyze_data()
 
 

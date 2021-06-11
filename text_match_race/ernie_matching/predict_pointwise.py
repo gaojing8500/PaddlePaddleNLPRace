@@ -138,7 +138,7 @@ if __name__ == "__main__":
         text_pair["pred_label"] = y_pred
         text_pair_list.append(text_pair)
         # print(text_pair)
-    root_path = "/home/gaojing/PTM/datasets/qian_yan_text_match_datasets/result/"
-    result_out_path = "lcqmc.tsv"
+    root_path = "/home/gaojing/PTM/datasets/qian_yan_text_match_datasets/result/result_128"
+    result_out_path = "paws-x.tsv"
     get_predict_result(root_path+result_out_path,text_pair_list)
 

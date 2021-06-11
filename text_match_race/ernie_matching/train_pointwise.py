@@ -129,7 +129,7 @@ def do_train():
         convert_example,
         tokenizer=tokenizer,
         max_seq_length=args.max_seq_length)
-
+    #这个地方有点奇怪
     batchify_fn = lambda samples, fn=Tuple(
         Pad(axis=0, pad_val=tokenizer.pad_token_id),  # text_pair_input
         Pad(axis=0, pad_val=tokenizer.pad_token_type_id),  # text_pair_segment
